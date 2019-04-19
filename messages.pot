@@ -1,0 +1,506 @@
+# Translations template for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-04-14 10:09+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: app/admin/forms.py:10
+msgid "Secret key"
+msgstr "Secret key"
+
+msgid "Incorrect secret key! Please try again."
+msgstr "密钥错误！请重试。"
+
+#: app/admin/forms.py:11
+msgid "Reset admin"
+msgstr "重置 admin"
+
+#: app/admin/views.py:73
+msgid "User/Password has been reset to admin/admin"
+msgstr "用户名/密码 已被重置为 admin/admin"
+
+#: app/auth/forms.py:12
+msgid "Username"
+msgstr "用户名"
+
+#: app/auth/forms.py:13 app/templates/menu.html:34
+msgid "Log in"
+msgstr "登录"
+
+#: app/auth/forms.py:16
+msgid "password"
+msgstr "密码"
+
+#: app/auth/forms.py:17 app/main/forms.py:74
+msgid "Confirm"
+msgstr "确定"
+
+#: app/auth/forms.py:18
+msgid "Remember me"
+msgstr "保持登录"
+
+#: app/auth/forms.py:21
+msgid "Old password"
+msgstr "原密码"
+
+#: app/auth/forms.py:22
+msgid "New password"
+msgstr "新密码"
+
+#: app/auth/forms.py:22
+msgid "Passwords must match."
+msgstr "密码不一致"
+
+#: app/auth/forms.py:23
+msgid "Confirm new password"
+msgstr "确认新密码"
+
+#: app/auth/forms.py:24 app/main/forms.py:35
+msgid "Done"
+msgstr "完成"
+
+#: app/auth/views.py:55
+#, python-format
+msgid "User %(username)s not found."
+msgstr "用户 %(username)s 不存在。"
+
+#: app/auth/views.py:70 app/auth/views.py:78
+msgid "Too many incorrect attempts, please try again later."
+msgstr "密码输入错误次数过多，请稍后再试..."
+
+#: app/auth/views.py:103 app/auth/views.py:107
+msgid "Invalid username or password."
+msgstr "用户名或密码错误！"
+
+#: app/auth/views.py:130
+msgid "Your password has been updated."
+msgstr "您的密码已更新！"
+
+#: app/auth/views.py:135
+msgid "Invalid old password."
+msgstr "原密码错误！"
+
+#: app/auth/views.py:144
+msgid "You have been logged out."
+msgstr "当前账户已退出登录！"
+
+#: app/main/forms.py:13
+msgid "New post..."
+msgstr "新发布..."
+
+#: app/main/forms.py:14 app/main/forms.py:28
+#: app/templates/admin/comments.html:19
+msgid "Post"
+msgstr "发布"
+
+#: app/main/forms.py:16 app/main/forms.py:23 app/main/forms.py:69
+#: app/main/forms.py:75
+msgid "Public"
+msgstr "公开"
+
+#: app/main/forms.py:21 app/main/forms.py:46 app/main/forms.py:54
+#: app/main/forms.py:59
+msgid "Save"
+msgstr "保存"
+
+#: app/main/forms.py:33
+msgid "Export in HTML format"
+msgstr "导出 HTML 格式文件"
+
+#: app/main/forms.py:34
+msgid "Export in Markdown format"
+msgstr "导出 Markdown 格式文件"
+
+#: app/main/forms.py:39
+msgid "Keyword"
+msgstr "关键词"
+
+#: app/main/forms.py:40
+msgid "Search"
+msgstr "搜索"
+
+#: app/main/forms.py:50
+msgid "Upload/Change Photo"
+msgstr "上传/更新照片"
+
+#: app/main/forms.py:51
+msgid "Gender"
+msgstr "性别"
+
+#: app/main/forms.py:51
+msgid "Male"
+msgstr "男"
+
+#: app/main/forms.py:51
+msgid "Female"
+msgstr "女"
+
+#: app/main/forms.py:51
+msgid "Other"
+msgstr "其他"
+
+#: app/main/forms.py:52
+msgid "Birthday (eg. 1999/01/31)"
+msgstr "生日（如：1999/01/31）"
+
+#: app/main/forms.py:53
+msgid "Introduction"
+msgstr "介绍"
+
+#: app/main/forms.py:53 app/templates/about.html:40
+msgid "Who I am..."
+msgstr "我是谁..."
+
+#: app/main/forms.py:58
+msgid "New Username"
+msgstr "新用户名"
+
+#: app/main/forms.py:63
+msgid "Username already in use."
+msgstr "用户名已被注册"
+
+#: app/main/forms.py:66 app/main/forms.py:73
+msgid "Description"
+msgstr "描述"
+
+#: app/main/forms.py:67
+msgid "Upload"
+msgstr "上传"
+
+#: app/main/views.py:121
+msgid "You have new comments! <a href=\"/admin\">View now &raquo;</a>"
+msgstr "您有新评论！ <a href=\"/admin\">立即查看 &raquo;</a>"
+
+#: app/main/views.py:211
+msgid "You can not edit this post!"
+msgstr "您无权编辑此内容！"
+
+#: app/main/views.py:338
+msgid "You can not delete this post."
+msgstr "您无权删除此内容！"
+
+#: app/main/views.py:349 app/templates/post.html:12
+msgid "The post has been deleted."
+msgstr "内容已被删除！"
+
+#: app/main/views.py:375 app/main/views.py:414
+msgid "You can not access, or page not found."
+msgstr "您没有权限查看，或该内容不存在！"
+
+#: app/main/views.py:418
+msgid "Are you a robot? please take a rest..."
+msgstr "您是机器人吗？休息一下吧..."
+
+#: app/main/views.py:438
+msgid "Thanks! your comment will be published after approval."
+msgstr "感谢！您的评论在审核后显示。"
+
+#: app/main/views.py:477
+#, python-format
+msgid "No posts is tagged with %(tag)s."
+msgstr "没有标签为 %(tag)s 的内容。"
+
+#: app/main/views.py:538
+msgid "Can not add these special characters: < > \\ ? * !"
+msgstr "标签禁止使用字符： < > \ ? * !"
+
+#: app/main/views.py:579
+#, python-format
+msgid "You have added %(number)d tags: %(tags)s"
+msgstr "您已添加 %(number)d 个标签：%(tags)s"
+
+#: app/main/views.py:584
+msgid "Can not add a blank tag."
+msgstr "不能添加空标签。"
+
+#: app/main/views.py:603
+#, python-format
+msgid "You have removed tag: %(tag)s"
+msgstr "您已清除标签：%(tag)s"
+
+#: app/main/views.py:629
+#, python-format
+msgid "You have removed %(number)d tags: %(tags)s"
+msgstr "您已清除 %(number)d 个标签：%(tags)s"
+
+#: app/main/views.py:794
+msgid "Image format: jpg/jpeg、png、gif、bmp、tif、webp"
+msgstr "支持图片格式：jpg/jpeg、png、gif、bmp、tif、webp"
+
+#: app/main/views.py:814
+msgid "The profile has been updated."
+msgstr "个人资料修改成功！"
+
+#: app/main/views.py:845
+msgid "Username changes have been saved."
+msgstr "用户名修改成功！"
+
+#: app/templates/_comments.html:23 app/templates/admin/comments.html:35
+#: app/templates/comment.html:44
+msgid "Reply"
+msgstr "回复"
+
+#: app/templates/_lists.html:24 app/templates/_lists.html:92
+#: app/templates/index.html:100 app/templates/tag.html:90
+msgid "Read full »"
+msgstr "全文 »"
+
+#: app/templates/_lists.html:30 app/templates/_lists.html:99
+#: app/templates/index.html:114 app/templates/post.html:111
+#: app/templates/tag.html:96
+msgid "Comment"
+msgstr "评论"
+
+#: app/templates/_lists.html:61 app/templates/index.html:56
+#: app/templates/post.html:48 app/templates/tag.html:51
+msgid "Tag"
+msgstr "标签"
+
+#: app/templates/_lists.html:61 app/templates/index.html:56
+#: app/templates/post.html:48 app/templates/tag.html:51
+msgid "Space separates tags"
+msgstr "空格分开多个标签"
+
+#: app/templates/_lists.html:62 app/templates/index.html:57
+#: app/templates/post.html:49 app/templates/tag.html:52
+msgid "Add"
+msgstr "添加"
+
+#: app/templates/_lists.html:67 app/templates/account.html:37
+#: app/templates/index.html:62 app/templates/photos.html:93
+#: app/templates/post.html:55 app/templates/tag.html:63
+msgid "Edit"
+msgstr "编辑"
+
+#: app/templates/_lists.html:68 app/templates/index.html:63
+#: app/templates/photos.html:95 app/templates/post.html:56
+#: app/templates/tag.html:64
+msgid "Delete"
+msgstr "删除"
+
+#: app/templates/about.html:6 app/templates/about.html:28
+msgid "About"
+msgstr "关于"
+
+#: app/templates/account.html:19
+msgid "My Account"
+msgstr "我的账户"
+
+#: app/templates/account.html:23
+msgid "Account info"
+msgstr "账户信息"
+
+msgid "Profile"
+msgstr "个人资料"
+
+#: app/templates/account.html:31
+msgid "Username:"
+msgstr "用户名："
+
+#: app/templates/account.html:31 app/templates/account.html:32
+msgid "Change"
+msgstr "修改"
+
+msgid "Recent login:"
+msgstr "最近登录："
+
+#: app/templates/account.html:32
+msgid "Password:"
+msgstr "登录密码："
+
+#: app/templates/account.html:33
+msgid "Gender:"
+msgstr "性别："
+
+#: app/templates/account.html:34
+msgid "Birthday:"
+msgstr "生日："
+
+#: app/templates/account.html:35
+msgid "Introduction:"
+msgstr "介绍："
+
+#: app/templates/account.html:43 app/templates/export.html:18
+msgid "Export posts"
+msgstr "导出文档"
+
+#: app/templates/account.html:45
+msgid "Export posts in HTML or Markdown format."
+msgstr "导出 HTML 或 Markdown"
+
+#: app/templates/account.html:47
+msgid "Last export"
+msgstr "最近一次"
+
+#: app/templates/account.html:50
+msgid "Export"
+msgstr "导出"
+
+#: app/templates/base.html:4
+msgid "liteBB"
+msgstr "liteBB"
+
+#: app/templates/base.html:22
+msgid "/static/js/assets.js"
+msgstr "/static/js/zh-CN/assets.js"
+
+#: app/templates/change_username.html:19
+msgid "Change username"
+msgstr "修改用户名"
+
+#: app/templates/choose_language.html:18
+msgid "Choose your display language"
+msgstr "选择显示语言"
+
+#: app/templates/comment.html:42
+msgid "Back"
+msgstr "返回"
+
+#: app/templates/admin/comments.html:19
+msgid "View"
+msgstr "查看"
+
+#: app/templates/edit_image.html:23 app/templates/photos.html:33
+#: app/templates/photos.html:67
+msgid "Photo Album"
+msgstr "我的相册"
+
+#: app/templates/edit_image.html:31 app/templates/photos.html:75
+msgid "Upload image and copy link to post."
+msgstr "上传图片，复制链接到文章中"
+
+#: app/templates/edit_profile.html:22
+msgid "Edit profile"
+msgstr "编辑资料"
+
+#: app/templates/export.html:24
+msgid "Download now"
+msgstr "立即下载"
+
+#: app/templates/export.html:24
+msgid "Expires in 10 minutes"
+msgstr "十分钟内有效"
+
+#: app/templates/export.html:32
+msgid "It takes a few seconds to package files, please wait."
+msgstr "这需要几秒钟时间打包文档，请稍候。"
+
+#: app/templates/index.html:23
+msgid "Tags:"
+msgstr "标签："
+
+#: app/templates/index.html:30
+msgid "No tags yet..."
+msgstr "没有标签动态..."
+
+#: app/templates/index.html:139
+msgid "No posts yet..."
+msgstr "还没有内容..."
+
+#: app/templates/login_log.html:17
+msgid "Last logins"
+msgstr "最近登录日志"
+
+#: app/templates/login_log.html:23
+msgid "Login logs:"
+msgstr "登录日志："
+
+#: app/templates/login_log.html:33
+msgid "You can check the latest 20 logins."
+msgstr "可查看最近20条登录日志。"
+
+#: app/templates/menu.html:19
+msgid "Home"
+msgstr "首页"
+
+#: app/templates/menu.html:20
+msgid "Account"
+msgstr "账户设置"
+
+#: app/templates/menu.html:22
+msgid "About me"
+msgstr "关于我"
+
+#: app/templates/menu.html:23
+msgid "Comments"
+msgstr "审核评论"
+
+#: app/templates/menu.html:36
+msgid "Log out"
+msgstr "退出"
+
+#: app/templates/photos.html:37
+msgid "No images yet..."
+msgstr "暂无图片..."
+
+#: app/templates/post.html:52 app/templates/tag.html:60
+msgid "Remove post tags"
+msgstr "清除所有标签"
+
+#: app/templates/post.html:100
+msgid "Tags:"
+msgstr "标签："
+
+msgid "Post tags:"
+msgstr "文章标签："
+
+msgid "Newest"
+msgstr "最新"
+
+msgid "Oldest"
+msgstr "最早"
+
+msgid "Moderate comments"
+msgstr "审核评论"
+
+#: app/templates/post.html:132
+msgid "No comments yet..."
+msgstr "暂无评论..."
+
+#: app/templates/search.html:26
+#, python-format
+msgid "No results found for %(keyword)s"
+msgstr "没有找到 %(keyword)s 相关内容"
+
+#: app/templates/tag.html:14
+msgid "Top"
+msgstr "最热"
+
+#: app/templates/tag.html:20
+msgid "Newest"
+msgstr "最新"
+
+#: app/templates/tag.html:29
+#, python-format
+msgid "No new posts tagged with %(tag)s..."
+msgstr "暂无标签 %(tag)s 相关内容..."
+
+#: app/templates/tag.html:57
+msgid "Remove tag:"
+msgstr "清除标签："
+
+#: app/templates/auth/change_password.html:18
+msgid "Change password"
+msgstr "修改密码"
+
+#: app/templates/auth/login.html:34
+msgid "Forgot username?"
+msgstr "忘记用户名？"
+
+#: app/templates/auth/login_password.html:30
+msgid "Forgot password?"
+msgstr "忘记密码？"
+

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        @media only screen and (max-width: 750px) {
+            .compose-button { right: 15px; }
+        }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div class="nav-tags">
+
+        <span class="orange bold">{{ _('Tags:') }}</span>
+
+        {% if tags %}
+            {% for tag in tags %}
+                <a style="color: #888888; padding: 0 4px;" href="{{ url_for('.tag', tag=tag.content, order='time') }}">{{ tag.content }}<span style="font-size: 12px; padding-left:2px;">({{ tag.count }})</span></a>
+            {% endfor %}
+        {% else %}
+            <span style="color: #888888; padding: 0 4px;">{{ _('No tags yet...') }}</span>
+        {% endif %}
+
+    </div>
+
+    {% if posts %}
+
+        <div class="post-tabs">
+            {% include '_lists.html' %}
+        </div>
+
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.index') }}
+        </div>
+
+    {% else %}
+
+        <div class="nav nat-tabs" style="text-align: center; background-color: #ffffff; margin-top: 10px; margin-bottom: 15px;">
+            <p style="margin: 10px auto; line-height: 36px; color: #888888;">{{ _('No posts yet...') }}</p>
+        </div>
+
+    {% endif %}
+
+    <div style="text-align: center; margin-right: 54px;">
+        <a class="compose-button" style="color: #337ab7; font-size: 21px;" href="{{ url_for('main.new') }}">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </a>
+    </div>
+
+
+{% endblock %}
+

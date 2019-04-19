@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+
+        div.content-container { margin: 0 auto }
+        div.form-group { margin-bottom: 0; }
+        div.form-background { background-color: #f1f1f1; }
+        .form-control { padding: 12px; border: 1px solid #e8e8e8; }
+        div.flask-pagedown textarea { height: 430px; margin-top: -5px; }
+        input#submit.btn.btn-primary-x { margin-top: 12px; float: right; }
+        div.form-group label.control-label { margin-left: -4px; }
+        div.form-group input#file { display: inline; max-width: 220px; background: none; margin-top: 13px; margin-bottom: 0; }
+        div.checkbox { max-width: 220px; line-height: 24px; }
+        a.btn.btn-default, a.btn.btn-default:hover, a.btn.btn-default:focus, a.btn.btn-default:active { color: #888888; background-color: #ffffff; font-size: 12px; border-radius: 16px; }
+        a#preview-on.btn.btn-default, a#preview-on.btn.btn-default:hover, a#preview-on.btn.btn-default:focus, a#preview-on.btn.btn-default:active { color: #25b864; background-color: #ffffff; font-size: 12px; border-color: #25b864; border-radius: 16px; }
+
+
+        @media only screen and (max-width: 750px) {
+            body { background: #f5f5f5; }
+            div.form-background { background-color: #f5f5f5; }
+            .form-control { border: none; }
+            div.flask-pagedown textarea { height: 240px; margin-top: -20px;}
+            textarea#flask-pagedown-content.form-control.flask-pagedown-input:focus { border: none; outline: none; box-shadow: none; }
+            div.flask-pagedown-preview { background-color: #f5f5f5; border-bottom: 1px dotted #dddddd; }
+            input#submit.btn.btn-primary-x { margin-right: 10px;}
+            div.form-group label.control-label { margin-left: 1px; }
+            div.checkbox { margin-left: 5px;}
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div class="form-background" style="margin-bottom: 15px;">
+        {{ wtf.quick_form(form) }}
+    </div>
+
+    <div id="md-0" class="preview-button" style="display: none;"><a id="preview-on" class="btn btn-default" href="javascript:void(0);" onclick="preview_off()" role="button">Markdown</a></div>
+    <div id="md-1" class="preview-button"><a class="btn btn-default" href="javascript:void(0);" onclick="preview_on()" role="button">Markdown</a></div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+
+    <script type="text/javascript">
+        document.getElementById('flask-pagedown-content-preview').style.display='none';
+    </script>
+
+    <script type="text/javascript">
+        window.onscroll = function() {
+            document.getElementById('md-0').style.position = 'relative';
+            document.getElementById('md-0').style.zIndex = '2';
+        }
+    </script>
+
+    <script type="text/javascript">
+        function loading() {
+            if (document.getElementById('flask-pagedown-content').value !== ""){
+                document.getElementById('submit').value="{{ _('Save') }}...";
+            }
+        }
+    </script>
+
+{% endblock %}

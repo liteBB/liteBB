@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}CSRF Error{% endblock %}
+
+{% block page_content %}
+    <div class="page-header" style="border-bottom: none;">
+        <h1 style="margin: 140px 0 0 0; text-align: center;">Ooops...</h1>
+        <h4 style="margin: 28px 0 0 0; text-align: center;">{{ reason }}</h4>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .block-container { margin-top: 10px; line-height: normal; background-color: #ffffff; }
+        .control-label { line-height: 32px; }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+    <div>
+        <div class="nav-banner">
+            <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+            <span>{{ _('Change username') }}</span>
+        </div>
+
+        <div class="block-container">
+            {{ wtf.quick_form(form) }}
+        </div>
+
+    </div>
+{% endblock %}
+

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .block-container { padding: 10px 30px; }
+        @media only screen and (max-width: 750px) {
+            .block-container { padding: 10px 15px; }
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div>
+        <div class="nav-banner">
+            <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+            <span>{{ _('My Account') }}</span>
+        </div>
+
+        <div class="block-container" style="margin-top: 10px;  background-color: #ffffff; line-height: 44px;">
+            <p style="color: #333333; font-weight: bold; border-bottom: solid 1px #eeeeee;">{{ _('Account info') }}</p>
+            {{ _('Username:') }}  <b>{{ current_user.user_name }}</b>&nbsp;&nbsp;&nbsp;<a href="{{ url_for('main.change_username') }}">{{ _('Change') }}</a>
+            <hr class="hr-line">
+            <span>{{ _('Password:') }}</span>&nbsp;&nbsp;<a href="{{ url_for('auth.change_password') }}">{{ _('Change') }}</a>
+            <hr class="hr-line">
+            <a style="color: #999999;" href="{{ url_for('main.login_log') }}">{{ _('Recent login:') }} {{ login_ip }}</a>
+
+        </div>
+
+        <div class="block-container" style="line-height: 36px; background-color: #ffffff; margin-top: 10px;">
+            <p style="color: #333333; font-weight: bold; border-bottom: solid 1px #eeeeee; line-height: 44px;">{{ _('Profile') }}</p>
+
+            <div style="margin-top: 20px; background-color: #ffffff; line-height: 24px;">
+                {% if not photo %}
+                    <p><img src="{{ url_for('static', filename='image/photo/default.jpg') }}"></p>
+                {% else %}
+                    <p><img src="static/image/photo/{{ photo }}"></p>
+                {% endif %}
+                <p>{{ _('Gender:') }}  {{ gender }}</p>
+                <p>{{ _('Birthday:') }} {{ birthday }}</p>
+                <p>{{ _('Introduction:') }} <span style="color: #666666;">{{ introduction }}</span></p>
+
+                <p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit') }} &raquo;</a></p>
+            </div>
+
+        </div>
+
+        <div class="block-container" style="margin-top: 10px; line-height: 36px; background-color: #ffffff;">
+            <p style="color: #333333; font-weight: bold; border-bottom: solid 1px #eeeeee; line-height: 44px;">{{ _('Export posts') }}</p>
+
+            <span>{{ _('Export posts in HTML or Markdown format.') }}</span>
+            {% if current_user.last_export %}
+                <a style="color: #888888; font-size: 12px;">( {{ _('Last export') }} {{ moment(current_user.last_export).format("YYYY-MM-DD H:mm") }} )</a>
+            {% endif %}
+
+            <p style="line-height: 28px; margin-top: 6px;"><a href="{{ url_for('main.export') }}">{{ _('Export') }} &raquo;</a></p>
+        </div>
+
+    </div>
+
+    <p class="foot-note"></p>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .block-container { margin-top: 10px; background-color: #ffffff; line-height: 32px; }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div>
+        <div class="nav-banner">
+            <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+            <span>{{ _('Last logins') }}</span>
+        </div>
+
+
+        <div class="block-container">
+            <p style="padding-bottom: 10px; border-bottom: solid 1px #eeeeee;">
+                <span style="font-weight: bold;">{{ _('Login logs:') }}</span>
+            </p>
+            {% for login_log in login_logs %}
+                <p style="border-bottom: 1px dotted #eeeeee;">
+                    <span style="color: #888888;">{{ moment(login_log.timestamp).format("YYYY-MM-DD H:mm") }}</span>&nbsp;&nbsp;
+                    <span style="color: #888888;">{{ login_log.ip }}</span>
+                </p>
+            {% endfor %}
+        </div>
+
+        <p class="foot-note">{{ _('You can check the latest 20 logins.') }}</p>
+
+    </div>
+{% endblock %}
+

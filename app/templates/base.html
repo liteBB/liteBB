@@ -1,0 +1,104 @@
+{% extends "bootstrap/base.html" %}
+
+
+{% block title %}{{ _('liteBB') }}{% endblock %}
+
+{% block head %}
+
+    {{ super() }}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="shortcut icon" sizes="192x192" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ _('/static/js/assets.js') }}"></script>
+
+
+    <style type="text/css">
+        @media only screen and (max-width: 750px) {
+            .logo { margin-left: -15px; }
+            div.nav-tags { padding: 14px 15px 13px 15px; }
+            ul.posts li.post { padding: 20px 15px 15px 15px; border-bottom: none; }
+            .block-container { padding: 15px 15px; }
+            a.pull-left.pull-left-chevron { margin: 1px -29px 0 15px; }
+            .foot-note { padding: 0 15px; }
+        }
+    </style>
+
+    <script type="text/javascript">
+        if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
+            if(("standalone" in window.navigator) && window.navigator.standalone){
+                var noddy, remotes = false;
+                document.addEventListener('click', function(event) {
+                    noddy = event.target;
+                    while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+                        noddy = noddy.parentNode;
+                    }
+                    if('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes))
+                    {
+                        event.preventDefault();
+                        document.location.href = noddy.href;
+                    }
+                },false);
+            }
+        }
+    </script>
+
+{% endblock %}
+
+
+{% block navbar %}
+
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <div class="navbar-brand pull-left">
+                    <a class="navbar-menu" href="{{ url_for('main.menu') }}"><img src="{{ url_for('static', filename='icons/menu.svg') }}"></a>
+                </div>
+                <div class="navbar-logo">
+                    <a class="logo" href="{{ url_for('main.index') }}">lite<b>BB</b></a>
+                    <a class="search-icon" href="{{ url_for('main.search') }}"><img src="{{ url_for('static', filename='icons/search.svg') }}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container content-container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% block page_content %}{% endblock %}
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang(g.language) }}
+
+    <script type="text/javascript">
+        document.getElementById("submit").setAttribute("class", "btn btn-primary-x");
+    </script>
+
+{% endblock %}

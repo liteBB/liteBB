@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        p.sub-menu a { color: #787878; }
+        p.sub-menu a:hover { color: #666666; }
+        p.sub-menu { font-size: 15px; }
+        img.menu-icon { padding-right: 10px; vertical-align: -4px; }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div style="background-color: #ffffff; line-height: 56px; margin-top: 10px;">
+        <p class="sub-menu"><a href="{{ url_for('main.index') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/home.svg') }}">{{ _('Home') }}</a></p>
+        <p class="sub-menu"><a href="{{ url_for('main.account') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/my.svg') }}">{{ _('Account') }}</a></p>
+        <p class="sub-menu"><a href="{{ url_for('main.photos') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/camera.svg') }}">{{ _('Photo Album') }}</a></p>
+        <p class="sub-menu"><a href="{{ url_for('main.about') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/info.svg') }}">{{ _('About me') }}</a></p>
+        {% if current_user.is_authenticated %}
+            <p class="sub-menu"><a style="color: #dd0000;" href="{{ url_for('admin.comments') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/message.svg') }}">{{ _('Comments') }}</a></p>
+        {% endif %}
+
+        {% if g.language == 'en-US' %}
+            <p class="sub-menu"><a href="{{ url_for('main.choose_language') }}"><span class="glyphicon glyphicon-globe glyphicon-icon" aria-hidden="true"></span>English</a></p>
+        {% elif g.language == 'zh-CN' %}
+            <p class="sub-menu"><a href="{{ url_for('main.choose_language') }}"><span class="glyphicon glyphicon-globe glyphicon-icon" aria-hidden="true"></span>中文(简体)</a></p>
+        {% else %}
+            <p class="sub-menu"><a href="{{ url_for('main.choose_language') }}"><span class="glyphicon glyphicon-globe glyphicon-icon" aria-hidden="true"></span>English</a></p>
+        {% endif %}
+
+        {% if not current_user.is_authenticated %}
+            <p class="sub-menu" style="border-bottom: none;"><a href="{{ url_for('auth.login') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/right.svg') }}">{{ _('Log in') }}</a></p>
+        {% else %}
+            <p class="sub-menu" style="border-bottom: none;"><a href="{{ url_for('auth.logout') }}"><img class="menu-icon" src="{{ url_for('static', filename='icons/right.svg') }}">{{ _('Log out') }}</a></p>
+        {% endif %}
+
+    </div>
+
+    <footer class="footer">Powered by <a href="https://litebb.com">liteBB</a></footer>
+
+{% endblock %}
+

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        @media only screen and (max-width: 750px) {
+           ul.comments li.comment { padding: 20px 15px 15px 15px; }
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="nav-banner">
+        <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+        <span>{{ _('Moderate comments') }}</span>
+    </div>
+
+    <div class="post-tabs">
+
+        {% if not comments %}
+
+            <div class="nav nat-tabs" style="text-align: center; background-color: #ffffff; margin-top: 10px; margin-bottom: 15px;">
+                <p style="margin: 10px auto; line-height: 36px; color: #888888;">{{ _('No comments yet...') }}</p>
+            </div>
+
+        {% else %}
+
+            <ul class="comments">
+                {% for comment in comments %}
+                    <li class="comment" id="{{ comment.id }}" style="margin: 0 auto; border-bottom: 1px solid #e5e5e5;">
+
+                        <div class="article">
+                            <a href="{{ url_for('main.post', postid=comment.post_id, order='newest') }}">&laquo; {{ _('View') }}</a>
+                        </div>
+
+                        <div class="comment-date">{{ moment(comment.create_time).fromNow(refresh=true) }}</div>
+                        <div class="comment-nickname pull-right">
+
+                            {% if current_user.is_authenticated %}
+                                {% if comment.approved == 1 %}
+                                    <a href="javascript:void(0);" onclick="moderate(this, {{ comment.id }});"><span class="glyphicon glyphicon-ok" style="color: #25b864;" aria-hidden="true"></span></a>
+                                {% else %}
+                                    <a href="javascript:void(0);" onclick="moderate(this, {{ comment.id }});"><span class="glyphicon glyphicon-ban-circle" style="color: #dd0000;" aria-hidden="true"></span></a>
+                                {% endif %}
+                                <span style="color: #aaaaaa; padding: 0 5px;">|</span>
+                            {% endif %}
+
+                            <a href="{{ url_for('main.comment', postid=comment.post_id, replied_id=comment.id) }}">{{ _('Reply') }}</a>
+                            <span>#{{ comment.id }}</span>
+
+                        </div>
+
+                        <div class="comment-content">
+
+                            <div class="comment-body">
+                                {{ comment.content_html | safe}}
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% endif %}
+
+    </div>
+
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, 'admin.comments')}}
+        </div>
+    {% endif %}
+
+{% endblock %}

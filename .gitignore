@@ -1,0 +1,14 @@
+*.pyc
+env
+venv
+*.db
+.idea
+.cfg
+.tmp
+.dat
+app/static/attachment
+app/static/cache
+app/static/image
+app/static/video
+
+

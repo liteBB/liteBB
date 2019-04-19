@@ -1,0 +1,35 @@
+<ul class="comments">
+    {% for comment in comments %}
+        <li class="comment" id="{{ comment.id }}" style="margin: 0 auto; border-bottom: 1px solid #e5e5e5;">
+
+            <div class="article">
+                {% if comment.replied_id %}
+                    <a href="#{{ comment.replied_id }}">#{{ comment.replied_id }}</a>
+                {% endif %}
+            </div>
+
+            <div class="comment-date">{{ moment(comment.create_time).fromNow(refresh=true) }}</div>
+            <div class="comment-nickname pull-right">
+                {% if current_user.is_authenticated %}
+                    {% if comment.approved == 1 %}
+                        <a href="javascript:void(0);" onclick="moderate(this, {{ comment.id }});"><span class="glyphicon glyphicon-ok" style="color: #25b864;" aria-hidden="true"></span></a>
+                    {% else %}
+                        <a href="javascript:void(0);" onclick="moderate(this, {{ comment.id }});"><span class="glyphicon glyphicon-ban-circle" style="color: #dd0000;" aria-hidden="true"></span></a>
+                    {% endif %}
+                    <span style="color: #aaaaaa; padding: 0 5px;">|</span>
+                {% endif %}
+
+                <a href="{{ url_for('.comment', postid=comment.post_id, replied_id=comment.id) }}">{{ _('Reply') }}</a>
+                <span>#{{ comment.id }}</span>
+            </div>
+
+            <div class="comment-content">
+                <div class="comment-body">
+                    {{ comment.content_html | safe}}
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+

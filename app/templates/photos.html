@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        img { margin-bottom: 10px; }
+        div.post-content { margin-top: -5px; }
+        form.form { margin: -5px auto; }
+        div.form-group { margin-bottom: 0; }
+        input#submit.btn.btn-primary-x { margin-top: 12px; float: right; }
+        div.form-group label.control-label { margin-left: -4px; }
+        div.form-group input#file { display: inline; max-width: 220px; background: none; margin-top: 13px; margin-bottom: 0; }
+        div.checkbox { max-width: 220px; line-height: 24px; }
+        @media only screen and (max-width: 750px) {
+            ul.posts li.post { padding: 5px 15px 5px 15px; border-bottom: none; }
+            form.form { margin: -10px auto; }
+        }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    {% if not current_user.is_authenticated %}
+
+        <div>
+
+            <div class="nav-banner">
+                <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+                <span>{{ _('Photo Album') }}</span>
+            </div>
+
+            {% if not photos %}
+                <div class="nav nat-tabs" style="text-align: center; background-color: #ffffff; margin-top: 10px; margin-bottom: 15px;">
+                    <p style="margin: 10px auto; line-height: 36px; color: #888888;">{{ _('No images yet...') }}</p>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <ul class="posts">
+
+            {% for photo in photos %}
+
+                <li class="post">
+
+                    <div class="post-content">
+                        <div class="post-body">
+                            <p style="font-size: 14px;">{{ photo.title }}</p>
+                            <img src="/static/image/{{ photo.path }}/{{ photo.image }}">
+                        </div>
+                    </div>
+
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <div>
+
+            <div class="nav-banner">
+                <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+                <span>{{ _('Photo Album') }}</span>
+            </div>
+
+            <div class="block-container" style="margin-top: 10px; line-height: normal; background-color: #ffffff;">
+                {{ wtf.quick_form(form) }}
+            </div>
+
+            {% if not photos %}
+                <p class="foot-note">{{ _('Upload image and copy link to post.') }}</p>
+            {% endif %}
+
+        </div>
+
+
+        <ul class="posts">
+
+            {% for photo in photos %}
+
+                <li class="post">
+
+                    <div class="post-content">
+                        <div class="post-body">
+                            <p style="font-size: 14px; line-height: 20px;">
+                                {% if photo.public == 0 %}<span class="glyphicon glyphicon-lock" style="font-size:12px; color: #454545;" aria-hidden="true"></span>{% endif %}
+                                {{ photo.title }}
+                                <span style="float: right;">
+                                    <a href="{{ url_for('.edit_image', image_id=photo.id, page=page) }}">{{ _('Edit') }}</a>
+                                    <span style="color: #aaaaaa; padding: 0 5px;">|</span>
+                                    <a style="color: #dd0000;" href="{{ url_for('.delete_image', image_id=photo.id, page=page) }}" onclick="return del()">{{ _('Delete') }}</a>
+                                </span>
+                            </p>
+                            <img src="/static/image/{{ photo.path }}/{{ photo.image }}">
+                            <p style="margin-bottom: 10px; font-size: 14px; color: #888888; line-height: 20px; word-break: break-all;">
+                                {{ "![](/static/image/%s/%s)" % (photo.path, photo.image) }}
+                            </p>
+                        </div>
+                    </div>
+
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% endif %}
+
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.photos') }}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+
+    {{ super() }}
+    <script type="text/javascript">
+        function loading() {
+            if (document.getElementById('file').value){
+                document.getElementById('submit').value="{{ _('Upload') }}...";
+            }
+        }
+    </script>
+
+{% endblock %}
+
+
+
+

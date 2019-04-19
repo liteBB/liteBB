@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .edit-profile-form { margin-top: 10px;  background-color: #ffffff; padding: 30px 30px; line-height: 24px; }
+        input#photo { padding-top: 5px; padding-bottom: 5px; }
+        input#submit.btn.btn-primary-x { margin-top: 5px; }
+        @media only screen and (max-width: 750px) {
+            .edit-profile-form { padding: 20px 15px; }
+        }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div class="nav-banner">
+        <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+        <span>{{ _('Edit profile') }}</span>
+    </div>
+
+    <div class="edit-profile-form">
+        {{ wtf.quick_form(form) }}
+    </div>
+
+    <p class="foot-note"></p>
+
+{% endblock %}

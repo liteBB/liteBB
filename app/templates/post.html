@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {% if post.summary %}
+        {{ post.summary.split('\n').pop(0).lstrip('#').strip() }}
+    {% else %}
+        {{ _('liteBB') }}
+    {% endif %}
+{% endblock %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        ul.posts li.full-post { padding: 20px 30px 30px 30px; }
+        @media only screen and (max-width: 750px) {
+            ul.posts li.full-post { padding: 20px 15px 25px 15px; }
+            ul.comments li.comment { padding: 20px 15px 15px 15px; }
+        }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div>
+        <ul class="posts">
+            <li class="post full-post">
+
+                {% if current_user.is_authenticated %}
+
+                    <div class="dropdown pull-right" style="padding-left: 5px;">
+                        <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img class="dropdown-icon" src="{{ url_for('static', filename='icons/dropdown.svg') }}">
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel" style="width:244px;">
+
+                            <form class="form-inline add-post-tag" action="{{ url_for('.add_post_tag', postid=post.id) }}" method="post">
+                                <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
+                                <input type="text" name="tags" style="width: 150px;" placeholder="{{ _('Tag') }}" title="{{ _('Space separates tags') }}" />
+                                <input type="submit" value="{{ _('Add') }}" />
+                            </form>
+
+                            <p><a class="dark-gray" href="{{ url_for('.remove_tags', postid=post.id) }}">{{ _('Remove post tags') }}</a></p>
+
+                            {% if post.user_id == current_user.id %}
+                                <p><a class="dark-gray" href="{{ url_for('.edit', postid=post.id) }}">{{ _('Edit') }}</a></p>
+                                <p><a class="dark-gray" onclick="return del()" href="{{ url_for('.delete', postid=post.id) }}">{{ _('Delete') }}</a></p>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                {% endif %}
+
+                <div class="post-date">{{ moment(post.create_time).fromNow(refresh=true) }}</div>
+                <div class="post-username pull-right">
+                    <a href="{{ url_for('.about', username=post.user_name) }}">{{ post.user_name }}</a>
+                </div>
+
+                <div class="post-content">
+
+                    <div class="post-body">
+
+                        {% if post.image %}
+                            <p><img src="/static/image/{{ post.id }}/{{ post.image }}"></p>
+                        {% endif %}
+
+                        {% if post.video %}
+                            <p>
+                                <video width="100%" height="100%" poster="" controls="controls" webkit-playsinline="true" playsinline="true" x-webkit-airplay="true" preload="auto">
+                                    <source src="/static/video/{{ post.id }}/{{ post.video }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </p>
+                        {% endif %}
+
+                        {% if post.content_html %}
+                            {{ post.content_html | safe }}
+                        {% else %}
+                            {{ post.content }}
+                        {% endif %}
+
+                        {% if post.filename %}
+                            <p>
+                                <span class="glyphicon glyphicon-paperclip" style="font-size: 12px; padding-right: 2px;" aria-hidden="true"></span>
+                                <a href="/static/attachment/{{ post.id }}/{{ post.file_md5 }}/{{ post.filename }}">{{ post.filename }}</a>
+                                <span style="font-size: 12px; color: #888888;">({{ post.file_size }})</span>
+                            </p>
+                        {% endif %}
+
+                        {% if post_tags %}
+                            <p style="padding-top: 10px; font-size: 14px;">
+                                <span class="orange">{{ _('Post tags:') }}</span>&nbsp;
+                                {% for post_tag in post_tags %}
+                                    <a style="color: #888888; padding-right: 8px;" href="{{ url_for('.tag', tag=post_tag.content, order='time') }}">{{ post_tag.content }}</a>
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <div class="full-post-footer">
+                    <a class="col-xs-3 post-comment" href="{{ url_for('.comment', postid=post.id) }}">{{ _('Comment') }}</a>
+                    <a class="col-xs-3 post-likes" style="color: #aaaaaa; text-decoration:none;" href="javascript:void(0);" onclick="like(this, {{ post.id }});"><img class="like-icon" src="{{ url_for('static', filename='icons/like.svg') }}"> {{ post.likes_count }}</a>
+                    <a class="col-xs-3 post-views" style="color: #aaaaaa; text-decoration:none;"><img class="view-icon" src="{{ url_for('static', filename='icons/view.svg') }}"> {{ post.views_count }}</a>
+                    {% if post.public == 0 %}
+                        <a class="col-xs-3 post-comments" href="{{ url_for('.post', postid=post.id, order='newest') }}#tab"><img class="comment-icon" src="{{ url_for('static', filename='icons/comments-lock.svg') }}"> {{ post.comments_count }}</a>
+                    {% else %}
+                        <a class="col-xs-3 post-comments" href="{{ url_for('.post', postid=post.id, order='newest') }}#tab"><img class="comment-icon" src="{{ url_for('static', filename='icons/comments.svg') }}"> {{ post.comments_count }}</a>
+                    {% endif %}
+                </div>
+
+            </li>
+        </ul>
+
+        <a id="tab"></a>
+        <ul class="nav nav-tabs">
+            {% if order=='newest' %}
+                <a class="col-xs-6 nav-tab-active" href="{{ url_for('.post', postid=post.id, order='newest') }}#tab">{{ _('Newest') }}</a>
+                <a class="col-xs-6 nav-tab-inactive" href="{{ url_for('.post', postid=post.id, order='oldest') }}#tab">{{ _('Oldest') }}</a>
+            {% else %}
+                <a class="col-xs-6 nav-tab-inactive" href="{{ url_for('.post', postid=post.id, order='newest') }}#tab">{{ _('Newest') }}</a>
+                <a class="col-xs-6 nav-tab-active" href="{{ url_for('.post', postid=post.id, order='oldest') }}#tab">{{ _('Oldest') }}</a>
+            {% endif %}
+        </ul>
+
+        {% if not comments %}
+
+            <div class="nav nat-tabs" style="text-align: center; background-color: #ffffff; margin-top: 10px; margin-bottom: 15px;">
+                <p style="margin: 10px auto; line-height: 36px; color: #888888;">{{ _('No comments yet...') }}</p>
+            </div>
+
+        {% else %}
+
+            {% include '_comments.html' %}
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}{{ title }} | {{ tag }}{% endblock %}
+
+{% block page_content %}
+
+    <div class="post-tabs">
+
+        {% if order=='time' %}
+
+            <div class="nav nav-tabs">
+                <a class="col-xs-6 nav-tab-active" href="{{ url_for('.tag', tag=tag, order='time') }}">#{{ tag }}</a>
+                <a class="col-xs-6 nav-tab-inactive" href="{{ url_for('.tag', tag=tag, order='likes_count', rank='total') }}">{{ _('Top') }}</a>
+            </div>
+
+        {% elif order=='likes_count' %}
+
+            <div class="nav nav-tabs">
+                <a class="col-xs-6 nav-tab-inactive" href="{{ url_for('.tag', tag=tag, order='time') }}">{{ _('Newest') }}</a>
+                <a class="col-xs-6 nav-tab-active" href="{{ url_for('.tag', tag=tag, order='likes_count', rank='total') }}">#{{ tag }}</a>
+            </div>
+
+        {% endif %}
+
+        {% if not posts %}
+
+            <div class="nav nat-tabs" style="text-align: center; background-color: #ffffff; margin-top: 10px;">
+                <p style="margin: 10px auto; line-height: 36px; padding: 0 30px; color: #888888;">{{ _('No new posts tagged with %(tag)s...', tag=tag) }}</p>
+            </div>
+
+        {% else %}
+
+            <ul class="posts">
+                {% for post in posts %}
+                    <li class="post">
+
+                        {% if current_user.is_authenticated %}
+
+                            <div class="dropdown pull-right" style="padding-left: 5px;">
+
+                                <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img class="dropdown-icon" src="{{ url_for('static', filename='icons/dropdown.svg') }}">
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel" style="width:244px;">
+
+                                    {% if post.user_id %}
+                                        <form class="form-inline add-post-tag" action="{{ url_for('.add_post_tag', postid=post.id) }}" method="post">
+                                            <input name="csrf_token" type="hidden" value="{{ csrf_token() }}" />
+                                            <input type="text" name="tags" style="width: 150px;" placeholder="{{ _('Tag') }}" title="{{ _('Space separates tags') }}" />
+                                            <input type="submit" value="{{ _('Add') }}" />
+                                        </form>
+                                    {% endif %}
+
+                                    {% if tag %}
+                                        <p><a class="dark-gray" href="{{ url_for('.remove_tag', postid=post.id, tag=tag, order=order, page=pagination.page) }}">{{ _('Remove tag:') }} <span class="orange">{{ tag }}</span></a></p>
+                                    {% endif %}
+
+                                    <p><a class="dark-gray" href="{{ url_for('.remove_tags', postid=post.id, tag=tag, order=order, page=pagination.page) }}">{{ _('Remove post tags') }}</a></p>
+
+                                    {% if post.user_id == current_user.id %}
+                                        <p><a class="dark-gray" href="{{ url_for('.edit', postid=post.id) }}">{{ _('Edit') }}</a></p>
+                                        <p><a class="dark-gray" onclick="return del()" href="{{ url_for('.delete', postid=post.id) }}">{{ _('Delete') }}</a></p>
+                                    {% endif %}
+
+                                </ul>
+
+                            </div>
+
+                        {% endif %}
+
+                        <div class="post-date">{{ moment(post.create_time).fromNow(refresh=true) }}</div>
+                        <div class="post-username pull-right">
+                            <a href="{{ url_for('.about', username=post.user_name) }}">{{ post.user_name }}</a>
+                        </div>
+
+                        <div class="post-content">
+
+                            <div class="summary-body">
+
+                                {% if post.image %}
+                                    <p><img src="/static/image/{{ post.id }}/{{ post.image }}"></p>
+                                {% endif %}
+
+                                {% if post.video %}
+                                    <p>
+                                        <video width="100%" height="100%" poster="" controls="controls" webkit-playsinline="true" playsinline="true" x-webkit-airplay="true" preload="auto">
+                                            <source src="/static/video/{{ post.id }}/{{ post.video }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </p>
+                                {% endif %}
+
+                                {% if post.summary_html %}
+                                    {{ post.summary_html | safe }}
+                                {% else %}
+                                    {{ post.summary  }}
+                                {% endif %}
+
+                                {% if post.content | length >= 140 %}
+                                    <p><a style="font-size: 14px;" href="{{ url_for('.show_full', postid=post.id) }}">{{ _('Read full »') }}</a></p>
+                                {% endif %}
+
+                                {% if post.filename %}
+                                    <p>
+                                        <span class="glyphicon glyphicon-paperclip" style="font-size: 12px; padding-right: 2px;" aria-hidden="true"></span>
+                                        <a href="/static/attachment/{{ post.id }}/{{ post.file_md5 }}/{{ post.filename }}">{{ post.filename }}</a>
+                                        <span style="font-size: 12px; color: #888888;">({{ post.file_size }})</span>
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="post-footer">
+                                <a class="col-xs-3 post-comment" href="{{ url_for('.comment', postid=post.id) }}">{{ _('Comment') }}</a>
+                                <a class="col-xs-3 post-likes" style="color: #aaaaaa; text-decoration:none;" href="javascript:void(0);" onclick="like(this, {{ post.id }});"><img class="like-icon" src="{{ url_for('static', filename='icons/like.svg') }}"> {{ post.likes_count }}</a>
+                                <a class="col-xs-3 post-views" style="color: #aaaaaa; text-decoration:none;"><img class="view-icon" src="{{ url_for('static', filename='icons/view.svg') }}"> {{ post.views_count }}</a>
+                                {% if post.public == 0 %}
+                                    <a class="col-xs-3 post-comments" href="{{ url_for('.post', postid=post.id, order='newest') }}#tab"><img class="comment-icon" src="{{ url_for('static', filename='icons/comments-lock.svg') }}"> {{ post.comments_count }}</a>
+                                {% else %}
+                                    <a class="col-xs-3 post-comments" href="{{ url_for('.post', postid=post.id, order='newest') }}#tab"><img class="comment-icon" src="{{ url_for('static', filename='icons/comments.svg') }}"> {{ post.comments_count }}</a>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% if pagination %}
+                <div class="pagination">
+                    {{ macros.pagination_widget(pagination, '.tag', tag=tag, order=order) }}
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+

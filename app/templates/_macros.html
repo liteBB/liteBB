@@ -1,0 +1,29 @@
+{% macro pagination_widget(pagination, endpoint, fragment='') %}
+
+    {% if pagination.pages > 1 %}
+        <ul class="pagination" style="margin: 5px 0px;">
+            <li{% if not pagination.has_prev %} class="disabled"{% endif %}>
+                <a style="background-color: #eeeeee; border-color: #eeeeee; font-size: 16px;" href="{% if pagination.has_prev %}{{ url_for(endpoint, page=pagination.prev_num, **kwargs) }}{{ fragment }}{% else %}#{% endif %}">
+                    <span class="glyphicon glyphicon-chevron-left" style="padding: 0px 10px;" aria-hidden="true"></span>
+                </a>
+            </li>
+
+            {% for p in pagination.iter_pages() %}
+                {% if p %}
+                    {% if p == pagination.page %}
+                        <li class="active">
+                            <a style="color: #777777; font-weight: bold; background-color: #eeeeee; border-color: #eeeeee; font-size: 16px;" href="{{ url_for(endpoint, page = p, **kwargs) }}{{ fragment }}">{{ p }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            <li{% if not pagination.has_next %} class="disabled"{% endif %}>
+                <a style="background-color: #eeeeee; border-color: #eeeeee; font-size: 16px;" href="{% if pagination.has_next %}{{ url_for(endpoint, page=pagination.next_num, **kwargs) }}{{ fragment }}{% else %}#{% endif %}">
+                    <span class="glyphicon glyphicon-chevron-right" style="padding: 0px 10px" aria-hidden="true"></span>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+
+{% endmacro %}

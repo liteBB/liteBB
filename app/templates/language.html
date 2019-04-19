@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Language{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1 style="margin: 140px 0 0 0; text-align: center;">Language</h1>
+        <h4 style="margin: 18px 0 0 0; text-align: center;">Display language: {{ language }}</h4>
+        <h4 style="margin: 18px 0 0 0; text-align: center;">User language: {{ user_language }}</h4>
+        <h4 style="margin: 18px 0 0 0; text-align: center;">Accept language best: {{ best }}</h4>
+    </div>
+{% endblock %}

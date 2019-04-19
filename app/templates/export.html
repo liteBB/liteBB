@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .checkbox, .radio { padding: 5px 0; }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+    <div>
+        <div class="nav-banner">
+            <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+            <span>{{ _('Export posts') }}</span>
+        </div>
+
+        {% if current_user.last_export and current_user.last_export > ten_minutes %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <a href="{{ download_url }}">{{ _('Download now') }}</a> &nbsp;|&nbsp; {{ _('Expires in 10 minutes') }}
+            </div>
+        {% endif %}
+
+        <div class="block-container" style="margin-top: 10px; line-height: 24px; background-color: #ffffff;">
+            {{ wtf.quick_form(form) }}
+        </div>
+
+        <p class="foot-note">{{ _('It takes a few seconds to package files, please wait.') }}</p>
+
+    </div>
+{% endblock %}
+

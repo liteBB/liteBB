@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        form.form { margin-top: -5px; }
+        div.form-group { margin-bottom: 0; }
+        input#submit.btn.btn-primary-x { margin-top: 12px; float: right; }
+        div.checkbox { max-width: 220px; line-height: 24px; }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div>
+
+        <div class="nav-banner">
+            <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
+            <span>{{ _('Photo Album') }}</span>
+        </div>
+
+        <div class="block-container" style="margin-top: 10px; line-height: normal; background-color: #ffffff;">
+            {{ wtf.quick_form(form) }}
+        </div>
+
+        {% if not uploads %}
+            <p class="foot-note">{{ _('Upload image and copy link to post.') }}</p>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+
+
+
