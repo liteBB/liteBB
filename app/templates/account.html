@@ -33,7 +33,7 @@
 
             <div style="margin-top: 20px; background-color: #ffffff; line-height: 24px;">
                 {% if not photo %}
-                    <p><img src="{{ url_for('static', filename='image/photo/default.jpg') }}"></p>
+                    <p><img src="{{ url_for('static', filename='default.jpg') }}"></p>
                 {% else %}
                     <p><img src="static/image/photo/{{ photo }}"></p>
                 {% endif %}

@@ -4,6 +4,7 @@ from flask import render_template, request, flash, redirect, url_for, current_ap
 from flask_login import login_required, current_user
 from flask_babel import _
 from .. import db, csrf
+from config import APP_TITLE
 from . import admin
 from ..models import User, Post, Comment
 from .forms import ResetForm
@@ -23,7 +24,7 @@ def comments():
         .paginate(page, per_page=current_app.config['LISTS_PER_PAGE'], error_out=False)
     comments = pagination.items
 
-    return render_template('admin/comments.html', comments=comments, pagination=pagination)
+    return render_template('admin/comments.html', title=APP_TITLE, comments=comments, pagination=pagination)
 
 
 @admin.route('/moderate', methods=['GET', 'POST'])
@@ -74,4 +75,4 @@ def reset():
 
             flash(_('Incorrect secret key! Please try again.'))
 
-    return render_template('admin/reset.html', form=form)
+    return render_template('admin/reset.html', title=APP_TITLE, form=form)

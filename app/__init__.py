@@ -39,7 +39,8 @@ def create_app(config_name):
     pagedown.init_app(app)
     babel.init_app(app)
 
-    create_folder(os.path.join(basedir, 'app', 'static', 'image'))
+    create_folder(os.path.join(basedir, 'app', 'static', 'upload'))
+    create_folder(os.path.join(basedir, 'app', 'static', 'image', 'photo'))
     create_folder(os.path.join(basedir, 'app', 'static', 'video'))
     create_folder(os.path.join(basedir, 'app', 'static', 'attachment'))
 

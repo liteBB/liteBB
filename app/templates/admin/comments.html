@@ -36,7 +36,7 @@
                             <a href="{{ url_for('main.post', postid=comment.post_id, order='newest') }}">&laquo; {{ _('View') }}</a>
                         </div>
 
-                        <div class="comment-date">{{ moment(comment.create_time).fromNow(refresh=true) }}</div>
+                        {#<div class="comment-date">{{ moment(comment.create_time).fromNow(refresh=true) }}</div>#}
                         <div class="comment-nickname pull-right">
 
                             {% if current_user.is_authenticated %}
@@ -45,11 +45,11 @@
                                 {% else %}
                                     <a href="javascript:void(0);" onclick="moderate(this, {{ comment.id }});"><span class="glyphicon glyphicon-ban-circle" style="color: #dd0000;" aria-hidden="true"></span></a>
                                 {% endif %}
-                                <span style="color: #aaaaaa; padding: 0 5px;">|</span>
+                                <span style="color: #aaaaaa; padding: 0 6px;">|</span>
                             {% endif %}
 
                             <a href="{{ url_for('main.comment', postid=comment.post_id, replied_id=comment.id) }}">{{ _('Reply') }}</a>
-                            <span>#{{ comment.id }}</span>
+                            <span>&nbsp;#{{ comment.id }}</span>
 
                         </div>
 

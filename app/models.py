@@ -94,8 +94,7 @@ class Post(db.Model):
                             'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
                             'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'hr']
             target.summary_html = bleach.linkify(bleach.clean(
-                markdown(value, output_format='html', extensions=['fenced_code', 'nl2br']),
-                tags=allowed_tags, strip=True))
+                markdown(value, output_format='html'), tags=allowed_tags, strip=True))
 
     @staticmethod
     def on_changed_content(target, value, oldvalue, initiator):
@@ -107,8 +106,7 @@ class Post(db.Model):
                              'a': ['href', 'rel', 'id'], 'img': ['src', 'alt'],
                              'video': ['src', 'poster', 'width', 'height', 'controls']}
             target.content_html = bleach.linkify(bleach.clean(
-                markdown(value, output_format='html', extensions=['fenced_code', 'nl2br']),
-                tags=allowed_tags, strip=True, attributes=allowed_attrs))
+                markdown(value, output_format='html'), tags=allowed_tags, strip=True, attributes=allowed_attrs))
 
 
 class Comment(db.Model):
@@ -133,8 +131,7 @@ class Comment(db.Model):
                              'a': ['href', 'rel', 'id'], 'img': ['src', 'alt'],
                              'video': ['src', 'poster', 'width', 'height', 'controls']}
             target.content_html = bleach.linkify(bleach.clean(
-                markdown(value, output_format='html', extensions=['fenced_code', 'nl2br']),
-                tags=allowed_tags, strip=True, attributes=allowed_attrs))
+                markdown(value, output_format='html'), tags=allowed_tags, strip=True, attributes=allowed_attrs))
 
 
 class PostTag(db.Model):

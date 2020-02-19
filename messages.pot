@@ -48,6 +48,9 @@ msgstr "密码"
 msgid "Confirm"
 msgstr "确定"
 
+msgid "Submit"
+msgstr "提交"
+
 #: app/auth/forms.py:18
 msgid "Remember me"
 msgstr "保持登录"

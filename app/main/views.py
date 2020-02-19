@@ -66,7 +66,7 @@ def index():
             .paginate(page, per_page=current_app.config['LISTS_PER_PAGE'], error_out=False)
         posts = pagination.items
 
-    return render_template('index.html', posts=posts, pagination=pagination, page=page, tags=tags)
+    return render_template('index.html', title=APP_TITLE, posts=posts, pagination=pagination, page=page, tags=tags)
 
 
 @main.route('/new', methods=['GET', 'POST'])
@@ -140,7 +140,7 @@ def new():
 
         return redirect(url_for('.post', postid=post.id, order='newest'))
 
-    return render_template('new.html', form=form)
+    return render_template('new.html', title=APP_TITLE, form=form)
 
 
 @main.route('/edit/<int:postid>', methods=['GET', 'POST'])
@@ -267,7 +267,7 @@ def edit(postid):
     form.process()
     form.content.data = post.content
 
-    return render_template('edit_post.html', form=form, post=post)
+    return render_template('edit_post.html', title=APP_TITLE, form=form, post=post)
 
 
 @main.route('/delete/<int:postid>')
@@ -281,6 +281,15 @@ def delete(postid):
         return redirect(url_for('.post', postid=postid, order='newest'))
 
     db.session.query(Post).filter(Post.id == postid).delete()
+    db.session.commit()
+
+    post_tags = PostTag.query.join(PostTagRelationship, PostTagRelationship.post_tag_id == PostTag.id).filter(
+        PostTagRelationship.post_id == postid).all()
+    for post_tag in post_tags:
+        post_tag_relationship = PostTagRelationship.query.filter(PostTagRelationship.post_id == postid, PostTagRelationship.post_tag_id == post_tag.id).first()
+        db.session.delete(post_tag_relationship)
+        post_tag.count -= 1
+        db.session.add(post_tag)
     db.session.commit()
 
     comments = Comment.query.filter(Comment.post_id == postid).all()
@@ -323,7 +332,7 @@ def post(postid, order):
             comments = Comment.query.filter(Comment.post_id == postid, Comment.approved == 1) \
                 .order_by(Comment.create_time.asc()).all()
 
-        return render_template('post.html', post=post, comments=comments, order=order, post_tags=post_tags)
+        return render_template('post.html', title=APP_TITLE, post=post, comments=comments, order=order, post_tags=post_tags)
 
     else:
 
@@ -342,7 +351,7 @@ def post(postid, order):
 
             comments = Comment.query.filter(Comment.post_id == postid).order_by(Comment.create_time.asc()).all()
 
-        return render_template('post.html', post=post, comments=comments, order=order, post_tags=post_tags)
+        return render_template('post.html', title=APP_TITLE, post=post, comments=comments, order=order, post_tags=post_tags)
 
 
 @main.route('/comment/<int:postid>', methods=['GET', 'POST'])
@@ -390,7 +399,7 @@ def comment(postid):
 
         return redirect(url_for('.post', postid=postid, order='newest', _anchor='tab'))
 
-    return render_template('comment.html', form=form, post=post, replied_id=replied_id)
+    return render_template('comment.html', title=APP_TITLE, form=form, post=post, replied_id=replied_id)
 
 
 @main.route('/like', methods=['GET', 'POST'])
@@ -622,7 +631,7 @@ def search():
                                                                     error_out=False)
                 posts = pagination.items
 
-                return render_template('search.html', posts=posts, pagination=pagination, form=form, keyword=keyword)
+                return render_template('search.html', title=APP_TITLE, posts=posts, pagination=pagination, form=form, keyword=keyword)
 
         else:
 
@@ -645,7 +654,7 @@ def search():
                                                                     error_out=False)
                 posts = pagination.items
 
-                return render_template('search.html', posts=posts, pagination=pagination, form=form, keyword=keyword)
+                return render_template('search.html', title=APP_TITLE, posts=posts, pagination=pagination, form=form, keyword=keyword)
 
     else:
 
@@ -653,7 +662,7 @@ def search():
         if form.validate_on_submit():
             keyword = form.keyword.data
             return redirect(url_for('.search', keyword=keyword))
-        return render_template('search.html', form=form, keyword=form.keyword.data)
+        return render_template('search.html', title=APP_TITLE, form=form, keyword=form.keyword.data)
 
 
 @main.route('/about')
@@ -665,7 +674,7 @@ def about():
     else:
         user = User.query.filter_by(id=1).first()
     user_profile = UserProfile.query.filter_by(user_id=user.id).first()
-    return render_template('about.html', user=user, user_profile=user_profile)
+    return render_template('about.html', title=APP_TITLE, user=user, user_profile=user_profile)
 
 
 @main.route('/choose_language', methods=['GET', 'POST'])
@@ -685,7 +694,7 @@ def choose_language():
             db.session.commit()
             return redirect(url_for('main.menu'))
 
-    return render_template('choose_language.html', form=form)
+    return render_template('choose_language.html', title=APP_TITLE, form=form)
 
 
 @main.route('/login_log')
@@ -694,7 +703,7 @@ def login_log():
 
     login_logs = LoginLog.query.filter(LoginLog.user_id == current_user.id, LoginLog.status == 1).order_by(LoginLog.timestamp.desc()).all()[:20]
 
-    return render_template('login_log.html', login_logs=login_logs)
+    return render_template('login_log.html', title=APP_TITLE, login_logs=login_logs)
 
 
 @main.route('/account')
@@ -716,7 +725,7 @@ def account():
         birthday = ''
         introduction = ''
 
-    return render_template('account.html', login_ip = latest_log.ip, photo=photo, gender=gender, birthday=birthday,
+    return render_template('account.html', title=APP_TITLE, login_ip = latest_log.ip, photo=photo, gender=gender, birthday=birthday,
                            introduction=introduction)
 
 
@@ -725,7 +734,6 @@ def account():
 def edit_profile():
 
     user_profile = UserProfile.query.filter_by(user_id=current_user.id).first()
-    print(user_profile)
 
     form = ProfileForm()
 
@@ -772,7 +780,7 @@ def edit_profile():
         form.birthday.data = user_profile.birthday
         form.introduction.data = user_profile.introduction
 
-    return render_template('edit_profile.html', form=form)
+    return render_template('edit_profile.html', title=APP_TITLE, form=form)
 
 
 @main.route('/change_username', methods=['GET', 'POST'])
@@ -797,7 +805,7 @@ def change_username():
         flash(_('Username changes have been saved.'))
         return redirect(url_for('.account'))
 
-    return render_template('change_username.html', form=form)
+    return render_template('change_username.html', title=APP_TITLE, form=form)
 
 
 @main.route('/export', methods=['GET', 'POST'])
@@ -835,7 +843,7 @@ def export():
 
     ten_minutes = datetime.utcnow() - timedelta(minutes=10)
 
-    return render_template('export.html', form=form, download_url=download_url, ten_minutes=ten_minutes)
+    return render_template('export.html', title=APP_TITLE, form=form, download_url=download_url, ten_minutes=ten_minutes)
 
 
 @main.route('/photos', methods=['GET', 'POST'])
@@ -852,7 +860,7 @@ def photos():
 
         photos = pagination.items
 
-        return render_template('photos.html', page=page, pagination=pagination, photos=photos)
+        return render_template('photos.html', title=APP_TITLE, page=page, pagination=pagination, photos=photos)
 
     else:
 
@@ -899,7 +907,7 @@ def photos():
 
         photos = pagination.items
 
-        return render_template('photos.html', form=form, page=page, pagination=pagination, photos=photos)
+        return render_template('photos.html', title=APP_TITLE, form=form, page=page, pagination=pagination, photos=photos)
 
 
 @main.route('/edit_image/<int:image_id>', methods=['GET', 'POST'])
@@ -927,7 +935,7 @@ def edit_image(image_id):
     form.process()
     form.title.data = photo.title
 
-    return render_template('edit_image.html', form=form, page=page)
+    return render_template('edit_image.html', title=APP_TITLE, form=form, page=page)
 
 
 @main.route('/delete_image/<int:image_id>')
@@ -959,7 +967,7 @@ def delete_image(image_id):
 
 @main.route('/menu')
 def menu():
-    return render_template('menu.html')
+    return render_template('menu.html', title=APP_TITLE)
 
 @main.app_errorhandler(403)
 def forbidden(e):

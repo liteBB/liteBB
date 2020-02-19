@@ -23,8 +23,8 @@ class EditForm(Form):
 
 
 class CommentForm(Form):
-    content = PageDownField('', validators=[DataRequired()])
-    submit = SubmitField(_l('Comment'))
+    content = PageDownField('', validators=[DataRequired()], render_kw={'autofocus': 'autofocus'})
+    submit = SubmitField(_l('Submit'))
 
 
 class ExportForm(Form):

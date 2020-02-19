@@ -9,8 +9,10 @@
     {{ super() }}
     <style type="text/css">
         .block-container { padding: 25px 30px 15px 30px; margin-top: 10px; background-color: #ffffff; line-height: 24px; }
+        .edit-profile { float: right; margin: 0 30px 0 -58px; }
         @media only screen and (max-width: 750px) {
             .block-container { padding: 20px 15px; }
+            .edit-profile { float: right; margin: 0 15px 0 -43px; }
         }
 
     </style>
@@ -23,11 +25,14 @@
         <div class="nav-banner">
             <a class="pull-left pull-left-chevron" onclick="window.history.back()"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
             <span>{{ _('About') }}</span> <span class="bold">{{ user.user_name }}</span>
+            {% if current_user.is_authenticated %}
+                <a class="edit-profile" href="{{ url_for('.edit_profile') }}">{{ _('Edit') }}</a>
+            {% endif %}
         </div>
 
         <div class="block-container">
             {% if not user_profile.photo %}
-                <p><img src="{{ url_for('static', filename='image/photo/default.jpg') }}"></p>
+                <p><img src="{{ url_for('static', filename='default.jpg') }}"></p>
             {% else %}
                 {% set photo = 'image/photo/' + user_profile.photo %}
                 <p><img src="{{ url_for('static', filename=photo) }}"></p>

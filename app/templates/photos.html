@@ -93,14 +93,14 @@
                                 {{ photo.title }}
                                 <span style="float: right;">
                                     <a href="{{ url_for('.edit_image', image_id=photo.id, page=page) }}">{{ _('Edit') }}</a>
-                                    <span style="color: #aaaaaa; padding: 0 5px;">|</span>
+                                    <span style="color: #aaaaaa; padding: 0 6px;">|</span>
                                     <a style="color: #dd0000;" href="{{ url_for('.delete_image', image_id=photo.id, page=page) }}" onclick="return del()">{{ _('Delete') }}</a>
                                 </span>
                             </p>
                             <img src="/static/image/{{ photo.path }}/{{ photo.image }}">
-                            <p style="margin-bottom: 10px; font-size: 14px; color: #888888; line-height: 20px; word-break: break-all;">
+                            <span style="margin-bottom: 10px; display: inline-block; font-size: 14px; color: #888888; line-height: 20px; word-break: break-all;">
                                 {{ "![](/static/image/%s/%s)" % (photo.path, photo.image) }}
-                            </p>
+                            </span>
                         </div>
                     </div>
 

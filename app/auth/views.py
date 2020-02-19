@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from flask import render_template, request, make_response, flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_babel import _
+from config import APP_TITLE
 from . import auth
 from .. import db
 from ..models import User, LoginLog
@@ -45,7 +46,7 @@ def login():
             flash(_('User %(username)s not found.', username=form.user_name.data))
             return redirect(url_for('auth.login'))
 
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', title=APP_TITLE, form=form)
 
 
 @auth.route('/login_password/<user_name>', methods=['GET', 'POST'])
@@ -98,7 +99,7 @@ def login_password(user_name):
 
     user_name = user_name
 
-    return render_template('auth/login_password.html', form=form, user_name=user_name)
+    return render_template('auth/login_password.html', title=APP_TITLE, form=form, user_name=user_name)
 
 
 @auth.route('/change_password', methods=['GET', 'POST'])
@@ -125,7 +126,7 @@ def change_password():
 
             flash(_('Invalid old password.'))
 
-    return render_template('auth/change_password.html', form=form)
+    return render_template('auth/change_password.html', title=APP_TITLE, form=form)
 
 
 @auth.route('/logout')
