@@ -39,6 +39,12 @@ liteBB is running on your server now!
 
 *Prerequisites: only Python 3 is required on other Linux distributions.*
 
+# Docker
+run in docker
+
+ `docker build -t bb . && docker run -it -p 5000:5000  bb`
+
+
 ***
 
 Suggestions for liteBB deployment:
